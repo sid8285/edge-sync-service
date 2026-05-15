@@ -16,12 +16,12 @@ func NewCloudStore() *CloudStore {
 	}
 }
 
-//this function belongs to CloudStore, s is the specific store instance
+// this function belongs to CloudStore, s is the specific store instance
 func (s *CloudStore) SaveSyncedTransaction(t Transaction) (Transaction, bool, error) {
 	if t.ID == "" {
 		return Transaction{}, false, fmt.Errorf("transaction ID cannot be empty")
 	}
-	s.mu.Lock() //only one writer at a time
+	s.mu.Lock()         //only one writer at a time
 	defer s.mu.Unlock() //unlock regarless of how i return
 
 	existing, alreadyExists := s.transactions[t.ID] //Go's two-value map index. existing maps to whatever was stored under the key, already exists returns a bool - good to know
